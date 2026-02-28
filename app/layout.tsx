@@ -23,12 +23,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="pt-BR" className="h-full">
+      {/* O min-h-screen garante que o corpo tenha no mínimo a altura da tela */}
+      <body className="min-h-screen bg-slate-50 flex flex-col">
         {children}
-        <p> Todos os Diretos Reservados a Yasmin Inácio 2026</p>
       </body>
     </html>
   );
