@@ -11,10 +11,10 @@ export default function SistemaLayout({children}:
                           <Header />
                           
                           {/* O main com flex-1 cresce para ocupar todo o espaço vago, empurrando o footer para o fim */}
-                          <main className="flex-1 w-full max-w-7xl mx-auto p-4 md:p-6">
-                            <div>
+                          <main className="flex-1 ">
+                           
                               {children}
-                            </div>
+                          
                           </main>
                           
                           <Footer />
