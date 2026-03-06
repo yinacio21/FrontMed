@@ -45,15 +45,14 @@ export default function Perfil() {
             {/* LADO ESQUERDO: CARTÃO MÉDICO */}
             <div className="col-span-12 xl:col-span-4 space-y-6">
               <div className="bg-white rounded-[40px] p-8 shadow-2xl shadow-slate-200/60 border border-slate-100 flex flex-col items-center">
-                <div className="relative group">
-                  <div className="w-44 h-44 rounded-[50px] bg-slate-50 mb-6 overflow-hidden border-4 border-white shadow-xl relative">
+                
+                {/* O bloco relativo do Avatar foi simplificado para não ter o botão de câmera sobreposto */}
+                <div className="relative mb-6">
+                  <div className="w-44 h-44 rounded-[50px] bg-slate-50 overflow-hidden border-4 border-white shadow-xl">
                     <div className="w-full h-full bg-gradient-to-br from-blue-50 to-slate-200 flex items-center justify-center">
                       <span className="text-6xl font-black text-blue-600 italic tracking-tighter">HS</span>
                     </div>
                   </div>
-                  <button className="absolute bottom-6 right-0 w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center shadow-lg hover:bg-blue-600 transition-all scale-100 group-hover:scale-110">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                  </button>
                 </div>
                 
                 <h2 className="text-3xl font-black text-slate-900 tracking-tighter italic">{medico.nome}</h2>
