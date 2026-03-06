@@ -1,4 +1,9 @@
+import { useAuth } from "../context/AuthContext";
+
 export default function Header(){
+
+    const {usuario, logout} = useAuth();
+
     return (
     <header className="sticky top-0 z-50 w-full border-b border-blue-100 bg-blue-50/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -21,7 +26,7 @@ export default function Header(){
         {/* Área do Usuário */}
         <div className="flex items-center gap-4">
           <div className="hidden flex-col items-end md:flex">
-            <span className="text-sm font-bold text-slate-800">Dra. Yasmin Inácio</span>
+            <span className="text-sm font-bold text-slate-800">{usuario?.name.toLocaleUpperCase()||'Usuario indefinido!'}</span>
             <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-100 px-2 py-0.5 rounded-md">
               CRM 12345
             </span>
@@ -31,7 +36,9 @@ export default function Header(){
 
           <button 
             className="group flex items-center gap-2 rounded-xl bg-white border border-blue-200 px-4 py-2 text-sm font-bold text-slate-600 transition-all hover:bg-red-50 hover:text-red-600 hover:border-red-100 shadow-sm"
-            title="Sair do sistema"
+            title="Sair"
+            type="button"
+            onClick={logout}
           >
             <span className="hidden sm:inline">Sair</span>
             <svg 
