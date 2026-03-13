@@ -26,7 +26,7 @@ export default function Header(){
         {/* Área do Usuário */}
         <div className="flex items-center gap-4">
           <div className="hidden flex-col items-end md:flex">
-            <span className="text-sm font-bold text-slate-800">{usuario?.name.toLocaleUpperCase()||'Usuario indefinido!'}</span>
+            <span className="text-sm font-bold text-slate-800">{usuario?.nome.toLocaleUpperCase()||'Usuario indefinido!'}</span>
             <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-100 px-2 py-0.5 rounded-md">
               CRM 12345
             </span>
