@@ -2,40 +2,54 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useAuth, Usuario } from '../context/AuthContext';
+import axios from 'axios';
+
+interface LoginResponse{
+  token: string
+}
 
 export default function LoginPage() {
 
-    const router  = useRouter();
-    const {login} = useAuth();
-
-    const handleLogin = async (FormData:FormData) => {
-        const email = FormData.get("email");
-        const senha = FormData.get("senha");
+  const router = useRouter();
+  const { login } = useAuth();
 
 
-        try{
-
-          //Validamos na API
-
-          const usuarioMock = new Usuario(1,"Yasmin Inácio", "", true);
-          const tokenmock = "jwt-sgdfhfudndfgf-sdfjshgsgsg"
-
-          login(usuarioMock, tokenmock);
-
-          
-
-        }catch{
-          alert("Erro ao entrar no sistema!")
-        }
+  const handleLogin = async (FormData: FormData) => {
+    const email = FormData.get("email");
+    const senha = FormData.get("senha");
 
 
-        console.log(`Autenticado com email: ${email}`)
+    try {
 
-        router.push("/dashboard")
+      // var loginResult = await fetch("http://localhost:8080/auth/login", {
+      //   method: "POST",
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({ email: email, senha: senha })
+      // });
+
+      var loginResult = await axios.post<LoginResponse>('http://localhost:8080/auth/login',{ email: email, senha: senha });
+
+      if (loginResult.status !== 200) {
+        alert("Usuario ou senha inválido!")
+        return;
+      }
+
+      const usuarioMock = new Usuario(1, "Yasmin Inácio", "", "ATIVO")
+      login(usuarioMock, loginResult.data.token);
+    } catch {
+      alert("Erro ao entrar no sistema!")
     }
+
+
+    console.log(`Autenticado com email: ${email}`)
+
+    router.push("/dashboard")
+  }
   return (
     <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center p-6 relative overflow-hidden font-sans text-slate-900">
-      
+
       {/* EFEITOS DE LUZ (LED GLOW) */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-200/30 blur-[120px] rounded-full animate-pulse" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-emerald-100/40 blur-[120px] rounded-full" />
@@ -43,7 +57,7 @@ export default function LoginPage() {
       <div className="relative z-10 w-full max-w-md">
         {/* CARD PRINCIPAL */}
         <div className="bg-white/80 backdrop-blur-xl rounded-[45px] p-10 lg:p-12 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.12)] border border-white relative overflow-hidden">
-          
+
           {/* Detalhe de iluminação superior */}
           <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-emerald-500 via-blue-500 to-blue-600" />
 
@@ -63,7 +77,7 @@ export default function LoginPage() {
           </div>
 
           {/* FORMULÁRIO */}
-          <form action = {handleLogin} className="space-y-6">
+          <form action={handleLogin} className="space-y-6">
             <div className="space-y-2">
               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-4">
                 Identificação de Acesso
@@ -71,7 +85,7 @@ export default function LoginPage() {
               <input
                 name="email"
                 type="email"
-                placeholder="E-mail ou CPF"
+                placeholder="E-mail"
                 className="w-full px-6 py-5 rounded-2xl bg-slate-50 border border-slate-100 text-slate-900 font-semibold placeholder:text-slate-400 transition-all focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none shadow-sm"
               />
             </div>
@@ -89,22 +103,22 @@ export default function LoginPage() {
             </div>
 
             {/* BOTÃO ATUALIZADO (MENOR E ARREDONDADO) */}
-            <button 
+            <button
               type="submit"
               className="w-full group mt-4 flex items-center justify-center gap-2 rounded-full bg-slate-900 py-5 text-base font-bold text-white shadow-2xl transition-all hover:bg-blue-600 hover:-translate-y-1 active:scale-95"
             >
               Entrar no Sistema
               <svg className="transition-transform group-hover:translate-x-1" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
+                <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </button>
           </form>
 
           {/* RODAPÉ TÉCNICO */}
           <div className="mt-12 pt-8 border-t border-slate-50 text-center">
-             <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">
-                MedFlow Elite • {new Date().getFullYear()}
-             </p>
+            <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">
+              MedFlow Elite • {new Date().getFullYear()}
+            </p>
           </div>
         </div>
 

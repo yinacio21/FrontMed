@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 
 export class Usuario {
     constructor(
-        public codigo: number,
+        public id: number|null,
         public nome: string,
-        public cpf: string,
-        public ativo: boolean
+        public email: string,
+        public status: string 
     ) { }
 }
 

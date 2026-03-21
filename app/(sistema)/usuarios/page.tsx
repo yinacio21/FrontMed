@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react";
 import { Usuario } from "@/app/context/AuthContext";
 import { UsuarioMock } from "@/app/mock/usuario";
+import axios from "axios";
 
 export default function Usuarios() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
@@ -14,8 +15,12 @@ export default function Usuarios() {
 
   const carregarDados = async () => {
     try {
-      const dados = await UsuarioMock.listarTodos();
-      setUsuarios(dados);
+      const dados = await axios.get<Usuario[]>('http://localhost:8080/usuarios')
+
+      if(dados.status !==200){
+        alert("Erro ao carregar dados!")
+      }
+      setUsuarios(dados.data);
     } catch (error) {
       console.error(error)
     }
@@ -24,7 +29,7 @@ export default function Usuarios() {
   const handleAlterarStatus = async (usuario: Usuario) => {
     try {
       setUsuarios(usuariosAtuais =>
-        usuariosAtuais.map(u => u.codigo === usuario.codigo ? new Usuario(u.codigo, u.nome, u.cpf, !u.ativo) : u)
+        usuariosAtuais.map(u => u.id === usuario.id ? new Usuario(u.id, u.nome, u.email, u.status) : u)
       );
     } catch (error) {
       alert("Erro ao alterar status do usuário!")
@@ -58,32 +63,32 @@ export default function Usuarios() {
                 <tr className="bg-slate-50/50 border-b border-slate-100">
                   <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Código</th>
                   <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Nome</th>
-                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">CPF</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Email</th>
                   <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
                   <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {usuarios.map((usuario) => (
-                  <tr key={usuario.codigo} className="group hover:bg-slate-50/50 transition-colors">
-                    <td className="px-8 py-6 font-mono text-sm text-slate-400">#{usuario.codigo}</td>
+                  <tr key={usuario.id} className="group hover:bg-slate-50/50 transition-colors">
+                    <td className="px-8 py-6 font-mono text-sm text-slate-400">#{usuario.id}</td>
                     <td className="px-8 py-6">
                       <span className="font-bold text-slate-700 block">{usuario.nome}</span>
                     </td>
-                    <td className="px-8 py-6 text-slate-500 font-medium">{usuario.cpf}</td>
+                    <td className="px-8 py-6 text-slate-500 font-medium">{usuario.email}</td>
                     <td className="px-8 py-6">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${
-                        usuario.ativo ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'
+                        usuario.status ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'
                       }`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${usuario.ativo ? 'bg-emerald-500' : 'bg-red-500'}`} />
-                        {usuario.ativo ? 'Ativo' : 'Inativo'}
+                        <span className={`w-1.5 h-1.5 rounded-full ${usuario.status ? 'bg-emerald-500' : 'bg-red-500'}`} />
+                        {usuario.status ? 'Ativo' : 'Inativo'}
                       </span>
                     </td>
                     <td className="px-8 py-6">
                       <div className="flex items-center justify-end gap-3">
                         {/* BOTÃO EDITAR */}
                         <Link 
-                          href={`/usuarios/${usuario.codigo}/editar`}
+                          href={`/usuarios/${usuario.id}/editar`}
                           className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-bold text-sm hover:bg-slate-50 transition-all"
                         >
                           Editar
@@ -93,12 +98,12 @@ export default function Usuarios() {
                         <button 
                           onClick={() => handleAlterarStatus(usuario)}
                           className={`px-4 py-2 rounded-xl font-bold text-sm transition-all shadow-sm ${
-                            usuario.ativo 
+                            usuario.status
                               ? 'bg-red-50 text-red-600 hover:bg-red-600 hover:text-white hover:shadow-red-100' 
                               : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white hover:shadow-emerald-100'
                           }`}
                         >
-                          {usuario.ativo ? 'Inativar' : 'Ativar'}
+                          {usuario.status ? 'Inativar' : 'Ativar'}
                         </button>
                       </div>
                     </td>

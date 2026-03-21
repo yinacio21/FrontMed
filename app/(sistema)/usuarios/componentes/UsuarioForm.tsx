@@ -1,6 +1,7 @@
 'use client'
 import { Usuario } from "@/app/context/AuthContext"
 import { UsuarioMock } from "@/app/mock/usuario";
+import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react"
@@ -10,24 +11,25 @@ interface UsuarioFormProps {
 }
 
 export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
-  const [usuario, setUsuario] = useState<Usuario>(usuarioExistente || new Usuario(0, '', '', true));
+  const [usuario, setUsuario] = useState<Usuario>(usuarioExistente || new Usuario(null, '', '', "ATIVO"));
+
   const router = useRouter()
 
-  const handleChange = (campo: 'nome' | 'cpf', valor: string) => {
+  const handleChange = (campo: 'nome' | 'email', valor: string) => {
     setUsuario(prev =>
       new Usuario(
-        prev.codigo,
+        prev.id,
         campo === 'nome' ? valor : prev.nome,
-        campo === 'cpf' ? valor : prev.cpf,
-        prev.ativo
+        campo === 'email' ? valor : prev.email,
+        prev.status
       )
-    )
+    );
   }
 
   const handleSalvar = async () => {
-    await UsuarioMock.salvar(usuario);
+    var dadosResult = await axios.post<number>('http://localhost:8080/usuarios',usuario);
     // Aqui poderíamos usar um Toast customizado, mas mantive o alert para não mudar sua lógica
-    alert("Usuário salvo com sucesso!")
+    alert("Usuário salvo com sucesso! Código" + dadosResult.data)
     router.push("/usuarios")
   }
 
@@ -55,19 +57,18 @@ export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
           </div>
         </div>
 
-        {/* CAMPO: CPF */}
+        {/* CAMPO: email */}
         <div className="flex flex-col gap-2">
           <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">
-            CPF do Usuário
+            email do Usuário
           </label>
           <div className="relative group">
             <input 
-              type="text" 
-              maxLength={14} 
+              type="email"
               required 
-              onChange={(e) => handleChange('cpf', e.target.value)} 
-              value={usuario.cpf} 
-              placeholder="000.000.000-00"
+              onChange={(e) => handleChange('email', e.target.value)} 
+              value={usuario.email} 
+              placeholder="yasmin@gmail.com"
               className="w-full rounded-2xl border-2 border-slate-100 bg-slate-50 px-5 py-4 font-bold text-slate-700 outline-none transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 placeholder:text-slate-300"
             />
             <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-500 transition-colors">

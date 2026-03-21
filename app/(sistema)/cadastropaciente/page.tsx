@@ -65,7 +65,7 @@ export default function CadastroPaciente() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1 block mb-2">CPF</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1 block mb-2">Email</label>
                   <input type="text" placeholder="000.000.000-00" className="w-full p-6 bg-slate-50 border-none rounded-[24px] font-bold text-slate-700 outline-none" />
                 </div>
                 <div>
