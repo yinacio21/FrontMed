@@ -1,6 +1,7 @@
 package com.senac.backmed.BackMed.controllers;
 
 
+import com.senac.backmed.BackMed.model.DTO.AlterarStatusRequest;
 import com.senac.backmed.BackMed.model.entities.Usuario;
 import com.senac.backmed.BackMed.model.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,20 @@ public class UsuarioController {
             return ResponseEntity.ok("Atualizado com Sucesso!");
         }
 
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}/AlterarStatus")
+    public ResponseEntity<?> AlterarStatus(@PathVariable Long id, @RequestBody AlterarStatusRequest statusRequest){
+
+        var usuarioBanco = usuarioRepository.findById(id).orElse(null);
+
+        if (usuarioBanco != null){
+
+            usuarioBanco.setStatus(statusRequest.status());
+            usuarioRepository.save(usuarioBanco);
+            return ResponseEntity.ok("Atualizado com Sucesso!");
+        }
         return ResponseEntity.notFound().build();
     }
 }

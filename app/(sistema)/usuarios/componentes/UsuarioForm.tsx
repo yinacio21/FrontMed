@@ -27,11 +27,29 @@ export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
   }
 
   const handleSalvar = async () => {
-    var dadosResult = await axios.post<number>('http://localhost:8080/usuarios',usuario);
-    // Aqui poderíamos usar um Toast customizado, mas mantive o alert para não mudar sua lógica
+
+    if(usuarioExistente){
+
+      var dadosResult = await axios.put<number>('http://localhost:8080/usuarios/'+usuarioExistente.id,usuario);
+      if(dadosResult.status !== 200){
+        return;
+      }
+    
     alert("Usuário salvo com sucesso! Código" + dadosResult.data)
-    router.push("/usuarios")
+      
+    }else{
+
+      var dadosResult = await axios.post<number>('http://localhost:8080/usuarios',usuario);
+      if(dadosResult.status !== 200){
+        return;
+      }
+    
+    alert("Usuário salvo com sucesso! Código" + dadosResult.data)
   }
+
+   router.push("/usuarios")
+    }
+    
 
   return (
     <form action={handleSalvar} className="space-y-8">

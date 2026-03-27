@@ -26,15 +26,26 @@ export default function Usuarios() {
     }
   }
 
-  const handleAlterarStatus = async (usuario: Usuario) => {
-    try {
-      setUsuarios(usuariosAtuais =>
-        usuariosAtuais.map(u => u.id === usuario.id ? new Usuario(u.id, u.nome, u.email, u.status) : u)
-      );
-    } catch (error) {
-      alert("Erro ao alterar status do usuário!")
+  const handleAlterarStatus = async(usuario:Usuario) => {
+        try{
+          var novoStatus = {};
+          if(usuario.status==="ATIVO"){
+            novoStatus = {status: "INATIVO"};
+          }else{
+            novoStatus = { status: "ATIVO"};
+          }
+ 
+             var dadosResult = await axios.put<number>('http://localhost:8080/usuarios/' +usuario.id+'/AlterarStatus', novoStatus);
+ 
+         if(dadosResult.status !== 200){
+          carregarDados();
+          return;
+         }
+        alert("Usuário salvo com sucesso!" + dadosResult.data)
+        } catch(error){
+            alert("Erro ao alterar status do usuário!")
+        }
     }
-  }
 
   return (
     <div className="min-h-screen bg-[#f8fafc] p-6 lg:p-12 font-sans text-slate-900">
@@ -78,10 +89,10 @@ export default function Usuarios() {
                     <td className="px-8 py-6 text-slate-500 font-medium">{usuario.email}</td>
                     <td className="px-8 py-6">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${
-                        usuario.status ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'
+                        usuario.status==='ATIVO' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'
                       }`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${usuario.status ? 'bg-emerald-500' : 'bg-red-500'}`} />
-                        {usuario.status ? 'Ativo' : 'Inativo'}
+                        {usuario.status==='ATIVO' ? 'Ativo' : 'Inativo'}
                       </span>
                     </td>
                     <td className="px-8 py-6">
@@ -98,12 +109,12 @@ export default function Usuarios() {
                         <button 
                           onClick={() => handleAlterarStatus(usuario)}
                           className={`px-4 py-2 rounded-xl font-bold text-sm transition-all shadow-sm ${
-                            usuario.status
+                            usuario.status==='ATIVO'
                               ? 'bg-red-50 text-red-600 hover:bg-red-600 hover:text-white hover:shadow-red-100' 
                               : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white hover:shadow-emerald-100'
                           }`}
                         >
-                          {usuario.status ? 'Inativar' : 'Ativar'}
+                          {usuario.status==='ATIVO' ? 'Inativar' : 'Ativar'}
                         </button>
                       </div>
                     </td>
