@@ -2,6 +2,7 @@ package com.senac.backmed.BackMed.controllers;
 
 import com.senac.backmed.BackMed.model.DTO.LoginRequest;
 import com.senac.backmed.BackMed.model.DTO.LoginResponse;
+import com.senac.backmed.BackMed.model.entities.Usuario;
 import com.senac.backmed.BackMed.model.repository.UsuarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,7 +28,9 @@ public class AuthController {
     @Operation(description = "Valida senha (regra de negócio)", summary = "Login")
     public ResponseEntity<?> login (@RequestBody LoginRequest loginRequest){
 
-        if (loginRequest.email().equals ("String@s") && loginRequest.senha().equals("String")){
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(loginRequest.email());
+
+        if (usuario.isPresent() && usuario.get().getSenha().equals(loginRequest.senha())){
             return ResponseEntity.ok(new LoginResponse("DFHGDFGDG"));
         }
 
