@@ -27,7 +27,7 @@ export default function Sidebar() {
 
   const menuItems = [
     { name: "Dashboard", href: "/dashboard", icon: Icons.Dashboard },
-    { name: "Pacientes", href: "/usuarios", icon: Icons.Patients },
+    { name: "Médicos", href: "/usuarios", icon: Icons.Patients },
   ];
 
   return (

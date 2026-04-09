@@ -1,28 +1,27 @@
 package com.senac.backmed.BackMed.model.entities;
 
-import com.senac.backmed.BackMed.model.enuns.EnumStatusUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
-@Table (name = "usuario")
+@Table(name = "prontuario")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Usuario {
+public class Prontuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    private LocalDate data;
 
-    private String email;
+    private String anotacoesClinicas;
 
-    private String senha;
-
-    private EnumStatusUsuario status = EnumStatusUsuario.ATIVO;
-
+    @ManyToOne
+    private Paciente paciente;
 }

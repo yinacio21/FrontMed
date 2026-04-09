@@ -15,7 +15,7 @@ export default function Usuarios() {
 
   const carregarDados = async () => {
     try {
-      const dados = await axios.get<Usuario[]>('http://localhost:8080/usuarios')
+      const dados = await axios.get<Usuario[]>('http://localhost:8080/medicos')
 
       if(dados.status !==200){
         alert("Erro ao carregar dados!")
@@ -35,15 +35,18 @@ export default function Usuarios() {
             novoStatus = { status: "ATIVO"};
           }
  
-             var dadosResult = await axios.put<number>('http://localhost:8080/usuarios/' +usuario.id+'/AlterarStatus', novoStatus);
+          var dadosResult = await axios.put<number>('http://localhost:8080/medicos/' +usuario.id+'/AlterarStatus', novoStatus);
  
-         if(dadosResult.status !== 200){
-          carregarDados();
-          return;
-         }
-        alert("Usuário salvo com sucesso!" + dadosResult.data)
+          if(dadosResult.status !== 200){
+            alert("Erro ao alterar status do médico.");
+            return;
+          }
+
+          await carregarDados();
+          alert("Status atualizado com sucesso!");
         } catch(error){
-            alert("Erro ao alterar status do usuário!")
+            console.error(error);
+            alert("Erro ao alterar status do médico!")
         }
     }
 
@@ -54,15 +57,15 @@ export default function Usuarios() {
         {/* HEADER */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
           <div>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tight">Gestão de Usuários</h1>
-            <p className="text-slate-500 font-medium">Controle de acessos e moderadores do sistema</p>
+            <h1 className="text-4xl font-black text-slate-900 tracking-tight">Gestão de Médicos</h1>
+            <p className="text-slate-500 font-medium">Listagem dos médicos cadastrados no sistema</p>
           </div>
           <Link 
             href="/usuarios/novo" 
             className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-4 rounded-2xl font-black hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3"><path d="M12 5v14M5 12h14" /></svg>
-            Novo Usuário
+            Novo Médico
           </Link>
         </div>
 
@@ -74,7 +77,9 @@ export default function Usuarios() {
                 <tr className="bg-slate-50/50 border-b border-slate-100">
                   <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Código</th>
                   <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Nome</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">CRM</th>
                   <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Email</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Especialidade</th>
                   <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
                   <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
                 </tr>
@@ -86,7 +91,9 @@ export default function Usuarios() {
                     <td className="px-8 py-6">
                       <span className="font-bold text-slate-700 block">{usuario.nome}</span>
                     </td>
+                    <td className="px-8 py-6 text-slate-500 font-medium">{usuario.crm}</td>
                     <td className="px-8 py-6 text-slate-500 font-medium">{usuario.email}</td>
+                    <td className="px-8 py-6 text-slate-500 font-medium">{usuario.especialidade}</td>
                     <td className="px-8 py-6">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${
                         usuario.status==='ATIVO' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'
@@ -129,7 +136,7 @@ export default function Usuarios() {
                         <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-300">
                           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                         </div>
-                        <p className="text-slate-400 font-bold">Nenhum usuário encontrado!</p>
+                        <p className="text-slate-400 font-bold">Nenhum médico encontrado!</p>
                       </div>
                     </td>
                   </tr>

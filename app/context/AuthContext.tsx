@@ -9,6 +9,9 @@ export class Usuario {
         public id: number|null,
         public nome: string,
         public email: string,
+        public crm: string,
+        public especialidade: string,
+        public senha: string,
         public status: string 
     ) { }
 }

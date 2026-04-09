@@ -1,6 +1,6 @@
 package com.senac.backmed.BackMed.model.enuns;
 
-public enum EnumStatusUsuario {
+public enum StatusMedico {
     ATIVO,
     INATIVO,
     DELETADO;
