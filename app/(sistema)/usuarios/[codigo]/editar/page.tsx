@@ -19,7 +19,7 @@ export default function EditarUsuario() {
   }, []);
 
   const buscarDados = async () => {
-    const user = await axios.get<Usuario>('http://localhost:8080/usuarios/'+codigo)
+    const user = await axios.get<Usuario>('http://localhost:8080/medicos/'+codigo)
 
 
     if (user.data) setUsuario(user.data);

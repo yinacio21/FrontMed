@@ -1,9 +1,15 @@
 package com.senac.backmed.presentation;
 
+<<<<<<<< HEAD:BackMed/src/main/java/com/senac/backmed/BackMed/presentation/AuthController.java
 import com.senac.backmed.application.DTO.LoginRequest;
 import com.senac.backmed.application.DTO.LoginResponse;
 import com.senac.backmed.application.services.TokenService;
 import com.senac.backmed.application.services.UsuarioService;
+========
+import com.senac.backmed.BackMed.model.DTO.LoginRequest;
+import com.senac.backmed.BackMed.model.DTO.LoginResponse;
+import com.senac.backmed.BackMed.model.repository.MedicoRepository;
+>>>>>>>> origin/main:BackMed/src/main/java/com/senac/backmed/BackMed/controllers/AuthController.java
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +31,11 @@ public class AuthController {
   private  TokenService tokenService;
 
     @Autowired
+<<<<<<<< HEAD:BackMed/src/main/java/com/senac/backmed/BackMed/presentation/AuthController.java
     private UsuarioService usuarioService;
+========
+    private MedicoRepository medicoRepository;
+>>>>>>>> origin/main:BackMed/src/main/java/com/senac/backmed/BackMed/controllers/AuthController.java
 
     @PostMapping("/login")
     @Operation(description = "Valida senha (regra de negócio)", summary = "Login")

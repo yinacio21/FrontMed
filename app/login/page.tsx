@@ -14,10 +14,16 @@ export default function LoginPage() {
   const { login } = useAuth();
 
 
-  const handleLogin = async (FormData: FormData) => {
-    const email = FormData.get("email");
-    const senha = FormData.get("senha");
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get("email")?.toString().trim();
+    const senha = formData.get("senha")?.toString().trim();
 
+    if (!email || !senha) {
+      alert("Informe email e senha");
+      return;
+    }
 
     try {
 
@@ -77,7 +83,7 @@ export default function LoginPage() {
           </div>
 
           {/* FORMULÁRIO */}
-          <form action={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-4">
                 Identificação de Acesso
