@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
 
-    boolean existUsuarioByEmailContainingAndSenha(String email, String senha);
+    boolean existsMedicoByEmailContainingAndSenha(String email, String senha);
 
 
     Optional<Medico> findByEmail(String email);

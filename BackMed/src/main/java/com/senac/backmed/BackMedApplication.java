@@ -1,4 +1,4 @@
-package com.senac.backmed.BackMed;
+package com.senac.backmed;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.senac.backmed.BackMed;
+package com.senac.backmed;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

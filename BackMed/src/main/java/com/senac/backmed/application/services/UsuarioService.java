@@ -15,7 +15,7 @@ public class UsuarioService {
     public boolean ValidarUsuarioSenha(LoginRequest loginRequest){
         try{
 
-            return medicoRepository.existUsuarioByEmailContainingAndSenha(loginRequest.email(), loginRequest.senha());
+            return medicoRepository.existsMedicoByEmailContainingAndSenha(loginRequest.email(), loginRequest.senha());
 
         }catch (Exception e){
             throw new RuntimeException(e);

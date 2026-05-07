@@ -1,27 +1,29 @@
-package com.senac.backmed.BackMed.model.entities;
+package com.senac.backmed.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Entity
-@Table(name = "prontuario")
+@Table(name = "paciente")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Prontuario {
-
+public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate data;
+    private String nome;
 
-    private String anotacoesClinicas;
+    private String cpf;
 
-    @ManyToOne
-    private Paciente paciente;
+    private String estado;
+
+    private String email;
+
+    private String senha;
+
+    private String cidade;
 }
