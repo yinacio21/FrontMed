@@ -1,8 +1,9 @@
 "use client";
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useAuth, Usuario } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { Usuario } from "../types/usuarios";
 
 interface LoginResponse{
   token: string

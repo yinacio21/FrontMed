@@ -24,6 +24,7 @@ public class SecurityConfiguration {
         return http.cors(Customizer.withDefaults()).csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers(
                         "/auth/login",
+                        "/medicos/adm",
                         "/swagger-ui/**",
                         "/webjars/**",
                         "/swagger-resources/**",

@@ -28,6 +28,7 @@ public class JWTFilter extends OncePerRequestFilter {
         //liberação de metodos para não travar o token jwt
         //adionar a land page aqui
         if (path.equals("/auth/login") || path.startsWith("/swagger-ui")
+                || path.startsWith("/medicos/adm")
                 || path.startsWith("/webjars")
                 || path.startsWith("/swagger-resources")
                 || path.startsWith("/v3/api-docs")

@@ -1,11 +1,11 @@
 'use client'
-import { Usuario } from "@/app/context/AuthContext";
 import { UsuarioMock } from "@/app/mock/usuario";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import UsuarioForm from "../../componentes/UsuarioForm";
 import Link from "next/link";
 import axios from "axios";
+import { Usuario } from "@/app/types/usuarios";
 
 export default function EditarUsuario() {
   const params = useParams();

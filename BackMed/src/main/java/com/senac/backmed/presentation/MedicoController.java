@@ -42,6 +42,14 @@ public class MedicoController {
         return ResponseEntity.ok(medicoRepository.findById(id).orElse(null));
     }
 
+    @PostMapping("/adm")
+    @Operation(description = "cadastrar um novo medico no sistema", summary = "cadastrar medico")
+    public ResponseEntity<Medico> salvarAdm(@RequestBody Medico medico) {
+
+        medico.setRole("ROLE_ADMIN");
+        return ResponseEntity.ok(medicoRepository.save(medico));
+    }
+
     @PostMapping
     @Operation(description = "cadastrar um novo medico no sistema", summary = "cadastrar medico")
     public ResponseEntity<Medico> salvar(@RequestBody Medico medico) {
