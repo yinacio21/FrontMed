@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coldstartback.UsuarioController">
+   <children>
+      <Label layoutX="37.0" layoutY="52.0" text="Nome" />
+      <TextField fx:id="txtNome" layoutX="93.0" layoutY="48.0" />
+      <Label layoutX="37.0" layoutY="93.0" text="Email" />
+      <TextField fx:id="txtEmail" layoutX="93.0" layoutY="89.0" />
+      <Label layoutX="37.0" layoutY="137.0" text="Senha" />
+      <PasswordField fx:id="txtSenha" layoutX="93.0" layoutY="133.0" />
+      <Button layoutX="93.0" layoutY="188.0" mnemonicParsing="false" onAction="#onVoltarButtonClick" text="Voltar" />
+      <Button layoutX="190.0" layoutY="188.0" mnemonicParsing="false" onAction="#onSalvarButtonClick" text="Salvar" />
+   </children>
+</AnchorPane>
