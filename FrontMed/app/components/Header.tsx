@@ -1,74 +1,59 @@
-'use client';
+﻿'use client';
 
-import { useDispatch } from "react-redux";
-import { logout } from "../redux/slices/authSlice";
-import { store } from "../redux/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { usePathname } from "next/navigation";
+
+const PAGE_NAMES: Record<string, string> = {
+  "/dashboard": "Dashboard",
+  "/pacientes": "Pacientes",
+  "/medicos": "Medicos",
+  "/perfil": "Meu Perfil",
+};
+
+function getPageTitle(pathname: string): string {
+  if (pathname.includes("/pacientes") && pathname.includes("/editar")) return "Editar Paciente";
+  if (pathname.includes("/pacientes/novo")) return "Novo Paciente";
+  if (pathname.includes("/pacientes/") && pathname.length > "/pacientes/".length) return "Detalhes do Paciente";
+  if (pathname.includes("/medicos") && pathname.includes("/editar")) return "Editar Medico";
+  if (pathname.includes("/medicos/novo")) return "Novo Medico";
+  for (const [key, value] of Object.entries(PAGE_NAMES)) {
+    if (pathname === key || pathname.startsWith(key + "/")) return value;
+  }
+  return "MediSys";
+}
 
 export default function Header() {
+  const usuario = useSelector((state: RootState) => state.auth.usuario);
+  const pathname = usePathname();
+  const pageTitle = getPageTitle(pathname);
 
-  const dispatch = useDispatch();
-  const usuario = store.getState().auth.usuario;
+  const iniciais = usuario?.nome
+    ? usuario.nome.split(" ").filter(Boolean).slice(0, 2).map(n => n[0]).join("").toUpperCase()
+    : "M";
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#f0f4f8]/80 backdrop-blur-xl border-b border-slate-200/50">
-      {/* Usando w-full e justify-between para garantir que o flex ocupe o espaço e empurre o conteúdo */}
-      <div className="flex h-20 w-full items-center px-8">
-        
-        {/* Este div vazio com flex-1 empurra o próximo elemento para a direita */}
-        <div className="flex-1" />
+    <header className="h-20 bg-white/82 border-b border-slate-200/80 flex items-center justify-between px-6 sticky top-0 z-30 backdrop-blur-xl shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
+      <div>
+        <h2 className="text-lg font-black tracking-tight text-slate-900">{pageTitle}</h2>
+        <p className="text-xs font-medium text-slate-400">MediSys — Gestao Clinica</p>
+      </div>
 
-        {/* Container de Informações - Agora forçado para a DIREITA pelo flex-1 acima */}
-        <div className="flex items-center gap-6">
-          
-          {/* Área do Perfil */}
-          <div className="flex items-center gap-4">
-            <div className="flex flex-col items-end">
-              <span className="text-sm font-black text-slate-900 tracking-tight leading-none">
-                {usuario?.nome.toLocaleUpperCase() || 'PROFISSIONAL'}
-              </span>
-              <div className="flex items-center gap-2 mt-1.5">
-                <span className="text-[9px] font-black uppercase tracking-[0.15em] text-blue-600 bg-blue-50 px-2 py-0.5 rounded-lg border border-blue-100">
-                  CRM 12345
-                </span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]"></span>
-              </div>
-            </div>
-
-            {/* Avatar Placeholder */}
-            <div className="relative group cursor-pointer">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-slate-200 to-slate-100 border-2 border-white shadow-sm flex items-center justify-center text-slate-400 group-hover:border-blue-400 transition-all duration-300">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Divisor */}
-          <div className="h-8 w-px bg-slate-200" />
-
-          {/* Botão Sair */}
-          <button 
-           onClick={() => dispatch(logout())}
-           className="group flex items-center gap-2 px-3 py-2 rounded-xl text-slate-400 hover:bg-red-50 hover:text-red-600 transition-all duration-300 font-black text-[10px] uppercase tracking-widest"
-            <span className="hidden sm:inline">Sair</span>
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="18" 
-              height="18" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2.5" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-              className="transition-transform group-hover:translate-x-0.5"
-            >
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-              <polyline points="16 17 21 12 16 7" />
-              <line x1="21" y1="12" x2="9" y2="12" />
-            </svg>
-          </button>
+      <div className="flex items-center gap-4">
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-100">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-xs font-bold text-emerald-700">Sistema online</span>
         </div>
-        
+
+        <div className="flex items-center gap-3">
+          <div className="text-right hidden md:block">
+            <p className="text-sm font-semibold text-slate-800 leading-none">{usuario?.nome || "Medico"}</p>
+            <p className="text-xs text-cyan-700 font-bold mt-0.5">CRM {usuario?.crm || "—"}</p>
+          </div>
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-600 to-teal-500 flex items-center justify-center text-white text-sm font-black shadow-lg shadow-cyan-700/20">
+            {iniciais}
+          </div>
+        </div>
       </div>
     </header>
   );

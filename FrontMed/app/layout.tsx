@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "./context/AuthContext";
+import StoreProvider from "./redux/StoreProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FrontMed",
-  description: "Projeto Desenvolvimento FullStack",
+  title: "MediSys — Gestão Clínica Inteligente",
+  description: "Prontuário eletrônico, gestão de pacientes e histórico clínico com segurança e praticidade para médicos.",
 };
 
 export default function RootLayout({
@@ -25,11 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="h-full">
-      {/* O min-h-screen garante que o corpo tenha no mínimo a altura da tela */}
-      <body className="min-h-screen bg-slate-50 flex flex-col">
-        <AuthProvider>
-        {children}
-        </AuthProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-slate-50 flex flex-col`}>
+        <StoreProvider>
+          {children}
+        </StoreProvider>
       </body>
     </html>
   );

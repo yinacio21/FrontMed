@@ -19,11 +19,25 @@ public class Paciente {
 
     private String cpf;
 
+    private String cep;
+
+    private String logradouro;
+
+    private String numero;
+
+    private String complemento;
+
+    private String bairro;
+
     private String estado;
+
+    private String cidade;
 
     private String email;
 
     private String senha;
 
-    private String cidade;
+    @ManyToOne
+    @JoinColumn(name = "medico_id")
+    private Medico medico;
 }

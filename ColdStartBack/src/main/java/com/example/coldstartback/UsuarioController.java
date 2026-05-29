@@ -22,6 +22,10 @@ public class UsuarioController {
     private TextField txtEmail;
     @FXML
     private TextField txtSenha;
+    @FXML
+    private TextField txtCrm;
+    @FXML
+    private TextField txtEspecialidade;
 
     @FXML
     private void onVoltarButtonClick(ActionEvent event) throws IOException {
@@ -29,7 +33,6 @@ public class UsuarioController {
         Scene scene = new Scene(loader.load());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
-
     }
 
     @FXML
@@ -39,39 +42,39 @@ public class UsuarioController {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-type", "application/json");
-
         conn.setDoOutput(true);
 
         String json = "{\n" +
-                "  \"nome\": \""+txtNome.getText()+"\",\n" +
-                "  \"email\": \""+txtEmail.getText()+"\",\n" +
-                "  \"senha\": \""+txtSenha.getText()+"\"\n" +
+                "  \"nome\": \"" + txtNome.getText() + "\",\n" +
+                "  \"crm\": \"" + txtCrm.getText() + "\",\n" +
+                "  \"especialidade\": \"" + txtEspecialidade.getText() + "\",\n" +
+                "  \"email\": \"" + txtEmail.getText() + "\",\n" +
+                "  \"senha\": \"" + txtSenha.getText() + "\",\n" +
+                "  \"secretKey\": \"BackMed@SecretKey2025\"\n" +
                 "}";
 
-        try(OutputStream os = conn.getOutputStream()){
+        try (OutputStream os = conn.getOutputStream()) {
             os.write(json.getBytes());
         }
 
-        var code = conn.getResponseCode();
-        if (code ==200){
+        int code = conn.getResponseCode();
+        if (code == 200) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("menu-view.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
-        }else{
-            showMenssage("Erro ao Salvar!", Alert.AlertType.INFORMATION);
+        } else {
+            showMensagem("Erro ao Salvar! Verifique os dados e tente novamente.", Alert.AlertType.ERROR);
         }
 
         conn.disconnect();
-
     }
 
-    private void showMenssage(String mensagem, Alert.AlertType tipo){
+    private void showMensagem(String mensagem, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
-        alert.setTitle("Login");
+        alert.setTitle("MediSys");
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
-
 }

@@ -1,69 +1,65 @@
 package com.senac.backmed.presentation;
 
-import com.senac.backmed.domain.entities.Paciente;
-import com.senac.backmed.domain.repository.PacienteRepository;
+import com.senac.backmed.application.DTO.PacienteRequest;
+import com.senac.backmed.application.DTO.PacienteResponse;
+import com.senac.backmed.application.services.PacienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/pacientes")
 @CrossOrigin(origins = "http://localhost:3000")
-@Tag(description = "Serviço responsavel por controlar o gerenciamento da entidade paciente!", name = "controller de pacientes")
+@Tag(name = "controller de pacientes", description = "Serviço responsável por controlar o gerenciamento da entidade paciente!")
 public class PacienteController {
 
     @Autowired
-    private PacienteRepository pacienteRepository;
+    private PacienteService pacienteService;
 
     @GetMapping
-    @Operation(description = "Lista todos os pacientes do sistema", summary = "listar todos os pacientes")
-    public ResponseEntity<?> listarTodos() {
-        var pacientes = pacienteRepository.findAll();
-        return ResponseEntity.ok(pacientes);
+    @Operation(summary = "Listar pacientes do médico logado", description = "Lista apenas os pacientes vinculados ao médico autenticado")
+    public ResponseEntity<List<PacienteResponse>> listarTodos(Authentication authentication) {
+        return ResponseEntity.ok(pacienteService.listarTodos(authentication));
     }
 
     @GetMapping("/{id}")
-    @Operation(description = "busca um paciente no banco pelo ID", summary = "buscar paciente por ID")
-    public ResponseEntity<Paciente> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(pacienteRepository.findById(id).orElse(null));
+    @Operation(summary = "Buscar paciente por ID", description = "Busca um paciente no banco pelo ID")
+    public ResponseEntity<PacienteResponse> buscarPorId(@PathVariable Long id) {
+        var paciente = pacienteService.buscarPorId(id);
+        if (paciente == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(paciente);
     }
 
     @PostMapping
-    @Operation(description = "cadastrar um novo paciente no sistema", summary = "cadastrar paciente")
-    public ResponseEntity<Paciente> salvar(@RequestBody Paciente paciente) {
-        return ResponseEntity.ok(pacienteRepository.save(paciente));
+    @Operation(summary = "Cadastrar paciente", description = "Cadastra um novo paciente vinculado ao médico logado")
+    public ResponseEntity<?> salvar(@RequestBody PacienteRequest pacienteRequest, Authentication authentication) {
+        try {
+            return ResponseEntity.ok(pacienteService.salvarPaciente(pacienteRequest, authentication));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    @Operation(description = "editar um paciente do sistema", summary = "editar paciente")
-    public ResponseEntity<?> salvar(@PathVariable Long id, @RequestBody Paciente paciente) {
-
-        var pacienteBanco = pacienteRepository.findById(id).orElse(null);
-
-        if (pacienteBanco != null){
-            pacienteBanco.setNome(paciente.getNome());
-            pacienteBanco.setCpf(paciente.getCpf());
-            pacienteBanco.setEstado(paciente.getEstado());
-            pacienteBanco.setCidade(paciente.getCidade());
-
-            pacienteRepository.save(pacienteBanco);
-
-            return ResponseEntity.ok("Atualizado com Sucesso!");
+    @Operation(summary = "Atualizar paciente", description = "Edita os dados de um paciente no sistema")
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody PacienteRequest pacienteRequest, Authentication authentication) {
+        try {
+            boolean atualizado = pacienteService.atualizarPaciente(id, pacienteRequest, authentication);
+            return atualizado ? ResponseEntity.ok("Atualizado com sucesso!") : ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    @Operation(description = "excluir um paciente do sistema", summary = "excluir paciente")
-    public ResponseEntity<?> deletar(@PathVariable Long id){
-        var pacienteBanco = pacienteRepository.findById(id).orElse(null);
-
-        if (pacienteBanco != null){
-            pacienteRepository.delete(pacienteBanco);
-        }
-        return null;
+    @Operation(summary = "Excluir paciente", description = "Remove um paciente do sistema")
+    public ResponseEntity<?> deletar(@PathVariable Long id) {
+        boolean deletado = pacienteService.deletarPaciente(id);
+        return deletado ? ResponseEntity.ok("Deletado com sucesso!") : ResponseEntity.notFound().build();
     }
 }

@@ -1,145 +1,128 @@
-'use client'
+﻿'use client'
 
+import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-import { Usuario } from "../types/usuarios";
-import { LoginResponse } from "../types/auth";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/slices/authSlice";
+import { loginService } from "../services/authService";
+import { setToken, setUsuario } from "../redux/slices/authSlice";
+import { buscarMedicoLogado } from "../services/medicoService";
 
 export default function LoginPage() {
-    const router = useRouter();
-    const dispatch = useDispatch();
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
+  const [carregando, setCarregando] = useState(false);
+  const [tocado, setTocado] = useState({ email: false, senha: false });
 
-    const handleLogin = async (formData: FormData) => {
+  const emailInvalido = tocado.email && !email.trim();
+  const senhaInvalida = tocado.senha && !senha.trim();
+  const podeEnviar = email.trim() && senha.trim() && !carregando;
 
-        const email = formData.get("email");
-        const senha = formData.get("senha");
-
-        try {
-
-            // var loginResult = await fetch("http://localhost:8080/auth/login",{
-            //     method :'POST',
-            //     headers:{
-            //         'Content-Type':'application/json'
-            //     },
-            //     body: JSON.stringify({email:email,senha:senha})
-            // });
-
-      var loginResult = await axios.post<LoginResponse>('http://localhost:8080/auth/login',{ email: email, senha: senha });
-
-      if (loginResult.status !== 200) {
-        alert("Usuario ou senha inválido!")
-        return;
-      }
-
-      const usuario = new Usuario(1, "Yasmin Inácio", "","" ,"ATIVO")
-      dispatch(login(
-                {
-                    usuario: {...usuario},
-                    token: loginResult.data.token
-                }
-            ));
-
-
-
-        } catch (error) {
-            alert("Erro ao entrar no sistema!")
-        }
-
-
-        console.log(`autenticado com email: ${email}`)
-
-        router.push("/dashboard")
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErro("");
+    setCarregando(true);
+    try {
+      const result = await loginService({ email, senha });
+      if (!result.token) { setErro("E-mail ou senha incorretos."); return; }
+      dispatch(setToken({ token: result.token }));
+      const medico = await buscarMedicoLogado();
+      dispatch(setUsuario({ usuario: medico }));
+      router.push("/dashboard");
+    } catch {
+      setErro("E-mail ou senha incorretos. Verifique e tente novamente.");
+    } finally {
+      setCarregando(false);
     }
+  };
+
+  const ic = (invalid: boolean) =>
+    "w-full px-4 py-3 rounded-xl border text-sm font-medium text-slate-800 placeholder:text-slate-300 outline-none transition-all " +
+    (invalid
+      ? "border-red-300 bg-red-50 focus:border-red-400 focus:ring-2 focus:ring-red-400/20"
+      : "border-slate-200 bg-slate-50 focus:border-cyan-600 focus:bg-white focus:ring-4 focus:ring-cyan-600/10");
 
   return (
-    <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center p-6 relative overflow-hidden font-sans text-slate-900">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.16),transparent_34rem),linear-gradient(135deg,#f8fbff,#eefdfb)] flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="bg-white/92 rounded-3xl border border-white/80 shadow-[0_28px_90px_rgba(15,23,42,0.14)] p-8 backdrop-blur">
 
-      {/* EFEITOS DE LUZ (LED GLOW) */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-200/30 blur-[120px] rounded-full animate-pulse" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-emerald-100/40 blur-[120px] rounded-full" />
-
-      <div className="relative z-10 w-full max-w-md">
-        {/* CARD PRINCIPAL */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-[45px] p-10 lg:p-12 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.12)] border border-white relative overflow-hidden">
-
-          {/* Detalhe de iluminação superior */}
-          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-emerald-500 via-blue-500 to-blue-600" />
-
-          {/* LOGOTIPO */}
-          <div className="flex flex-col items-center gap-4 mb-12">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500 text-white shadow-lg shadow-emerald-200/50">
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3" />
-                <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4" />
-                <circle cx="20" cy="10" r="2" />
+          {/* Brand */}
+          <div className="flex flex-col items-center mb-8">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-600 to-teal-500 flex items-center justify-center mb-4 shadow-lg shadow-cyan-700/25">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/>
+                <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/>
               </svg>
             </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-slate-800">
-              Med<span className="text-blue-600">Flow</span>
-            </h1>
-            <div className="h-1 w-12 bg-slate-100 rounded-full" />
+            <h1 className="text-xl font-black text-slate-900">Entrar no <span className="text-cyan-700">MediSys</span></h1>
+            <p className="text-sm text-slate-400 mt-1">Acesse sua conta para continuar</p>
           </div>
 
-          {/* FORMULÁRIO */}
-          <form action={handleLogin} className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-4">
-                Identificação de Acesso
-              </label>
+          {/* Error banner */}
+          {erro && (
+            <div className="mb-5 flex items-center gap-2.5 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+              <svg className="w-4 h-4 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd"/></svg>
+              <p className="text-sm text-red-600 font-medium">{erro}</p>
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div>
+              <label className="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">E-mail</label>
               <input
-                name="email"
                 type="email"
-                placeholder="E-mail"
-                className="w-full px-6 py-5 rounded-2xl bg-slate-50 border border-slate-100 text-slate-900 font-semibold placeholder:text-slate-400 transition-all focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none shadow-sm"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                onBlur={() => setTocado(p => ({ ...p, email: true }))}
+                placeholder="seu@email.com"
+                className={ic(emailInvalido)}
               />
+              {emailInvalido && <p className="mt-1.5 text-xs text-red-500 font-medium">Informe seu e-mail.</p>}
             </div>
 
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-4">
-                Chave de Segurança
-              </label>
+            <div>
+              <label className="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Senha</label>
               <input
-                name="senha"
                 type="password"
-                placeholder="Sua senha"
-                className="w-full px-6 py-5 rounded-2xl bg-slate-50 border border-slate-100 text-slate-900 font-semibold placeholder:text-slate-400 transition-all focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none shadow-sm"
+                value={senha}
+                onChange={e => setSenha(e.target.value)}
+                onBlur={() => setTocado(p => ({ ...p, senha: true }))}
+                placeholder="••••••••"
+                className={ic(senhaInvalida)}
               />
+              {senhaInvalida && <p className="mt-1.5 text-xs text-red-500 font-medium">Informe sua senha.</p>}
             </div>
 
-            {/* BOTÃO ATUALIZADO (MENOR E ARREDONDADO) */}
             <button
               type="submit"
-              className="w-full group mt-4 flex items-center justify-center gap-2 rounded-full bg-slate-900 py-5 text-base font-bold text-white shadow-2xl transition-all hover:bg-blue-600 hover:-translate-y-1 active:scale-95"
+              disabled={!podeEnviar}
+              className="ms-btn-primary w-full py-3"
             >
-              Entrar no Sistema
-              <svg className="transition-transform group-hover:translate-x-1" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
+              {carregando ? (
+                <><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>Entrando...</>
+              ) : (
+                <>Entrar no sistema<svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></>
+              )}
             </button>
           </form>
 
-          {/* RODAPÉ TÉCNICO */}
-          <div className="mt-12 pt-8 border-t border-slate-50 text-center">
-            <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">
-              MedFlow Elite • {new Date().getFullYear()}
-            </p>
+          <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs text-slate-400">Ambiente seguro LGPD</span>
+            </div>
+            <Link href="/" className="text-xs text-cyan-700 font-bold hover:underline">Voltar ao inicio</Link>
           </div>
         </div>
 
-        {/* TAG DE SEGURANÇA */}
-        <div className="mt-8 flex flex-col items-center gap-4">
-          <div className="flex items-center gap-3 bg-white/40 px-6 py-3 rounded-full border border-white/60 backdrop-blur-sm shadow-sm">
-            <div className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-              Ambiente Criptografado LGPD
-            </span>
-          </div>
-        </div>
+        <p className="text-center text-xs text-slate-400 mt-5">
+          Ainda nao tem conta?{" "}
+          <Link href="/registro" className="text-cyan-700 font-bold hover:underline">Criar agora</Link>
+        </p>
       </div>
     </div>
   );

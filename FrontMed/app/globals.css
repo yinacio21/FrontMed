@@ -1,26 +1,91 @@
 @import "tailwindcss";
 
+/* Limita o scan do Tailwind v4 a arquivos com extensão explícita,
+   evitando que o Turbopack tente ler diretórios como arquivos no Windows */
+@source "../**/*.{ts,tsx,js,jsx,mts,mjs}";
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ms-primary:       #0f7ea8;
+  --ms-primary-dark:  #075985;
+  --ms-primary-light: #e0f7fb;
+  --ms-teal:          #0d9488;
+  --ms-teal-light:    #ccfbf1;
+  --ms-success:       #16a34a;
+  --ms-success-light: #f0fdf4;
+  --ms-danger:        #dc2626;
+  --ms-danger-light:  #fef2f2;
+  --ms-warning:       #d97706;
+  --ms-warning-light: #fffbeb;
+  --ms-bg:            #f5f7fb;
+  --ms-surface:       #ffffff;
+  --ms-border:        #dbe3ef;
+  --ms-border-light:  #f1f5f9;
+  --ms-text:          #0f172a;
+  --ms-text-secondary:#475569;
+  --ms-text-muted:    #94a3b8;
+  --ms-shadow-card:   0 14px 40px rgba(15,23,42,0.07);
+  --ms-shadow-elevated: 0 22px 70px rgba(15,23,42,0.12);
+  --ms-shadow-modal:  0 28px 90px rgba(15,23,42,0.25);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+*, *::before, *::after { box-sizing: border-box; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(14,165,233,0.10), transparent 34rem),
+    linear-gradient(180deg, #f8fbff 0%, var(--ms-bg) 42%);
+  color: var(--ms-text);
+  font-family: var(--font-geist-sans, system-ui, -apple-system, sans-serif);
+  line-height: 1.6;
+}
+
+/* Scrollbar elegante */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Seleção de texto */
+::selection { background: #cffafe; color: #164e63; }
+
+/* Animação de entrada do Modal */
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95) translateY(6px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+
+@layer components {
+  .ms-page-shell {
+    @apply p-5 md:p-8;
+  }
+
+  .ms-card {
+    @apply rounded-2xl border border-slate-200/80 bg-white shadow-[0_14px_40px_rgba(15,23,42,0.07)];
+  }
+
+  .ms-card-soft {
+    @apply rounded-2xl border border-slate-200/80 bg-white/85 shadow-[0_12px_34px_rgba(15,23,42,0.06)] backdrop-blur;
+  }
+
+  .ms-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-700 px-5 py-2.5 text-sm font-bold text-white shadow-[0_14px_28px_rgba(14,116,144,0.22)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-600/20 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0;
+  }
+
+  .ms-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-600 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-cyan-200 hover:bg-cyan-50 hover:text-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-600/10;
+  }
+
+  .ms-input {
+    @apply w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm font-medium text-slate-800 outline-none transition-all placeholder:text-slate-300 focus:border-cyan-600 focus:bg-white focus:ring-4 focus:ring-cyan-600/10;
+  }
+
+  .ms-table-wrap {
+    @apply overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_14px_40px_rgba(15,23,42,0.07)];
+  }
+
+  .ms-table-head {
+    @apply border-b border-slate-100 bg-slate-50/90;
+  }
 }

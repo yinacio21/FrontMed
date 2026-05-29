@@ -11,7 +11,11 @@
       <TextField fx:id="txtEmail" layoutX="93.0" layoutY="89.0" />
       <Label layoutX="37.0" layoutY="137.0" text="Senha" />
       <PasswordField fx:id="txtSenha" layoutX="93.0" layoutY="133.0" />
-      <Button layoutX="93.0" layoutY="188.0" mnemonicParsing="false" onAction="#onVoltarButtonClick" text="Voltar" />
-      <Button layoutX="190.0" layoutY="188.0" mnemonicParsing="false" onAction="#onSalvarButtonClick" text="Salvar" />
+      <Label layoutX="37.0" layoutY="181.0" text="CRM" />
+      <TextField fx:id="txtCrm" layoutX="93.0" layoutY="177.0" />
+      <Label layoutX="37.0" layoutY="225.0" text="Especialidade" />
+      <TextField fx:id="txtEspecialidade" layoutX="93.0" layoutY="221.0" />
+      <Button layoutX="93.0" layoutY="265.0" mnemonicParsing="false" onAction="#onVoltarButtonClick" text="Voltar" />
+      <Button layoutX="190.0" layoutY="265.0" mnemonicParsing="false" onAction="#onSalvarButtonClick" text="Salvar" />
    </children>
 </AnchorPane>
