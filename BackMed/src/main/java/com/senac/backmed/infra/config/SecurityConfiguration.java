@@ -29,10 +29,23 @@ public class SecurityConfiguration {
                         "/webjars/**",
                         "/swagger-resources/**",
                         "/v3/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/medico").hasRole("ADMIN")
-                        .anyRequest().authenticated()
 
+                        //para desativar a segurança, descomentar a linha abaixo
+                        //.requestMatchers("/**").permitAll()
+
+                        //rotas medico
+                        .requestMatchers(HttpMethod.GET,"/medicos").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/medicos/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/medicos").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/medicos/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/medicos/usuariologado").authenticated()
+
+
+                        //rotas paciente
+                        .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
+
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 }
