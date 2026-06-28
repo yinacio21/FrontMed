@@ -28,7 +28,7 @@ const NAV = [
     ),
   },
   {
-    label: "Medicos",
+    label: "Médicos",
     href: "/medicos",
     icon: (
       <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
@@ -108,7 +108,7 @@ export default function Sidebar() {
             {iniciais}
           </div>
           <div className="min-w-0">
-            <p className="text-xs font-semibold text-white truncate">{usuario?.nome || "Medico"}</p>
+            <p className="text-xs font-semibold text-white truncate">{usuario?.nome || "Médico"}</p>
             <p className="text-[10px] text-slate-400 truncate">CRM {usuario?.crm || "—"}</p>
           </div>
         </div>

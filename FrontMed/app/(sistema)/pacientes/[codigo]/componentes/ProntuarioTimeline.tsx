@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { Prontuario } from "@/app/types/prontuarios";
 import EmptyState from "@/app/components/ui/EmptyState";
 
@@ -16,8 +16,8 @@ export default function ProntuarioTimeline({ prontuarios, onDeletar }: Props) {
     return (
       <EmptyState
         icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>}
-        title="Nenhum prontuario registrado"
-        description="Use o formulario ao lado para registrar o primeiro atendimento deste paciente."
+        title="Nenhum prontuário registrado"
+        description="Use o formulário ao lado para registrar o primeiro atendimento deste paciente."
       />
     );
   }
@@ -25,7 +25,7 @@ export default function ProntuarioTimeline({ prontuarios, onDeletar }: Props) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base font-bold text-slate-800">Historico Clinico</h3>
+        <h3 className="text-base font-bold text-slate-800">Histórico Clínico</h3>
         <span className="text-xs font-semibold text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
           {prontuarios.length} {prontuarios.length === 1 ? "registro" : "registros"}
         </span>

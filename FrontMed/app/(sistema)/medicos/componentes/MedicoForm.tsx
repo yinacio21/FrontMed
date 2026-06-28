@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -31,15 +31,15 @@ export default function MedicoForm({ medicoExistente }: MedicoFormProps) {
   const podeEnviar = medico.nome.trim() && medico.crm.trim() && medico.especialidade.trim() && emailValido && (medicoExistente || medico.senha.trim());
 
   const handleSalvar = async (formData: FormData) => {
-    if (!validarEmail(medico.email)) { setTocado(p => ({...p, email: true})); showError("E-mail invalido", "Verifique o formato do e-mail e tente novamente."); return; }
+    if (!validarEmail(medico.email)) { setTocado(p => ({...p, email: true})); showError("E-mail inválido", "Verifique o formato do e-mail e tente novamente."); return; }
     if (medicoExistente) {
       const r = await atualizar(medico);
-      if (r > 0) { showSuccess("Medico atualizado!", "Os dados foram atualizados com sucesso."); setTimeout(() => router.push("/medicos"), 1500); }
-      else showError("Erro ao atualizar", "Nao foi possivel atualizar os dados.");
+      if (r > 0) { showSuccess("Médico atualizado!", "Os dados foram atualizados com sucesso."); setTimeout(() => router.push("/medicos"), 1500); }
+      else showError("Erro ao atualizar", "Não foi possível atualizar os dados.");
     } else {
       const r = await salvar(medico);
-      if (r) { showSuccess("Medico cadastrado!", "Registro criado com o codigo #" + r + "."); setTimeout(() => router.push("/medicos"), 1500); }
-      else showError("Erro ao cadastrar", "Nao foi possivel cadastrar o medico.");
+      if (r) { showSuccess("Médico cadastrado!", "Registro criado com o código #" + r + "."); setTimeout(() => router.push("/medicos"), 1500); }
+      else showError("Erro ao cadastrar", "Não foi possível cadastrar o médico.");
     }
   };
 
@@ -54,23 +54,23 @@ export default function MedicoForm({ medicoExistente }: MedicoFormProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="md:col-span-2">
             <label className={lc}>Nome Completo *</label>
-            <input required value={medico.nome} onChange={e => ch("nome", e.target.value)} onBlur={() => setTocado(p=>({...p,nome:true}))} placeholder="Ex: Dr. Joao da Silva" className={ic(erros.nome)} />
-            {erros.nome && <p className="mt-1.5 text-xs text-red-500 font-medium">Nome e obrigatorio.</p>}
+            <input required value={medico.nome} onChange={e => ch("nome", e.target.value)} onBlur={() => setTocado(p=>({...p,nome:true}))} placeholder="Ex: Dr. João da Silva" className={ic(erros.nome)} />
+            {erros.nome && <p className="mt-1.5 text-xs text-red-500 font-medium">Nome é obrigatório.</p>}
           </div>
           <div>
             <label className={lc}>CRM *</label>
             <input required value={medico.crm} onChange={e => ch("crm", e.target.value)} onBlur={() => setTocado(p=>({...p,crm:true}))} placeholder="Ex: 123456-SP" className={ic(erros.crm)} />
-            {erros.crm && <p className="mt-1.5 text-xs text-red-500 font-medium">CRM e obrigatorio.</p>}
+            {erros.crm && <p className="mt-1.5 text-xs text-red-500 font-medium">CRM é obrigatório.</p>}
           </div>
           <div>
             <label className={lc}>Especialidade *</label>
             <input required value={medico.especialidade} onChange={e => ch("especialidade", e.target.value)} onBlur={() => setTocado(p=>({...p,especialidade:true}))} placeholder="Ex: Cardiologia" className={ic(erros.especialidade)} />
-            {erros.especialidade && <p className="mt-1.5 text-xs text-red-500 font-medium">Especialidade e obrigatoria.</p>}
+            {erros.especialidade && <p className="mt-1.5 text-xs text-red-500 font-medium">Especialidade é obrigatória.</p>}
           </div>
           <div className="md:col-span-2">
             <label className={lc}>
               E-mail *
-              {tocado.email && emailValido !== null && <span className={"ml-2 normal-case " + (emailValido ? "text-emerald-600" : "text-red-500")}>{emailValido ? "Valido" : "Invalido"}</span>}
+              {tocado.email && emailValido !== null && <span className={"ml-2 normal-case " + (emailValido ? "text-emerald-600" : "text-red-500")}>{emailValido ? "Válido" : "Inválido"}</span>}
             </label>
             <div className="relative">
               <input type="text" required value={medico.email} onChange={e => ch("email", e.target.value)} onBlur={() => setTocado(p=>({...p,email:true}))} placeholder="medico@exemplo.com" className={emailCls} />
@@ -80,13 +80,13 @@ export default function MedicoForm({ medicoExistente }: MedicoFormProps) {
                 </div>
               )}
             </div>
-            {erros.email && <p className="mt-1.5 text-xs text-red-500 font-medium">Formato invalido. Use: usuario@dominio.com</p>}
+            {erros.email && <p className="mt-1.5 text-xs text-red-500 font-medium">Formato inválido. Use: usuario@dominio.com</p>}
           </div>
           {!medicoExistente && (
             <div className="md:col-span-2">
               <label className={lc}>Senha *</label>
-              <input type="password" required value={medico.senha} onChange={e => ch("senha", e.target.value)} onBlur={() => setTocado(p=>({...p,senha:true}))} placeholder="Minimo 6 caracteres" className={ic(erros.senha)} />
-              {erros.senha && <p className="mt-1.5 text-xs text-red-500 font-medium">Senha e obrigatoria.</p>}
+              <input type="password" required value={medico.senha} onChange={e => ch("senha", e.target.value)} onBlur={() => setTocado(p=>({...p,senha:true}))} placeholder="Mínimo 6 caracteres" className={ic(erros.senha)} />
+              {erros.senha && <p className="mt-1.5 text-xs text-red-500 font-medium">Senha é obrigatória.</p>}
             </div>
           )}
         </div>

@@ -5,27 +5,27 @@ const HERO_IMAGE =
 
 const FEATURES = [
   {
-    title: "Prontuario sempre organizado",
-    desc: "Registros clinicos em linha do tempo, com contexto do paciente e historico facil de consultar durante o atendimento.",
+    title: "Prontuário sempre organizado",
+    desc: "Registros clínicos em linha do tempo, com contexto do paciente e histórico fácil de consultar durante o atendimento.",
     tone: "from-sky-500 to-cyan-400",
   },
   {
-    title: "Rotina medica mais fluida",
-    desc: "Pacientes, medicos, dados cadastrais e atendimentos reunidos em uma interface clara para uso diario.",
+    title: "Rotina médica mais fluida",
+    desc: "Pacientes, médicos, dados cadastrais e atendimentos reunidos em uma interface clara para uso diário.",
     tone: "from-emerald-500 to-teal-400",
   },
   {
     title: "Acesso protegido por conta",
-    desc: "Cada medico trabalha com seus proprios dados, mantendo sigilo, controle e previsibilidade no fluxo de trabalho.",
+    desc: "Cada médico trabalha com seus próprios dados, mantendo sigilo, controle e previsibilidade no fluxo de trabalho.",
     tone: "from-indigo-500 to-blue-500",
   },
 ];
 
 const METRICS = [
   ["Pacientes", "Cadastro centralizado"],
-  ["Prontuarios", "Historico por atendimento"],
-  ["Medicos", "Gestao de contas"],
-  ["Seguranca", "Acesso autenticado"],
+  ["Prontuários", "Histórico por atendimento"],
+  ["Médicos", "Gestão de contas"],
+  ["Segurança", "Acesso autenticado"],
 ];
 
 export default function LandingPage() {
@@ -60,13 +60,13 @@ export default function LandingPage() {
             <div className="max-w-3xl">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-cyan-100 shadow-2xl backdrop-blur">
                 <span className="h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,0.95)]" />
-                Gestao clinica inteligente
+                Gestão clínica inteligente
               </div>
               <h1 className="max-w-3xl text-5xl font-black leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
-                Atendimento medico com mais clareza, controle e seguranca.
+                Atendimento médico com mais clareza, controle e segurança.
               </h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-100 sm:text-xl">
-                O MediSys organiza pacientes, prontuarios e rotinas da clinica em uma experiencia visual precisa, rapida e confiavel para o uso profissional.
+                O MediSys organiza pacientes, prontuários e rotinas da clínica em uma experiência visual precisa, rápida e confiável para o uso profissional.
               </p>
               <div className="mt-9">
                 <Link
@@ -99,9 +99,9 @@ export default function LandingPage() {
         <section className="pb-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mb-10 max-w-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-700">Experiencia de produto</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-700">Experiência de produto</p>
               <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                Uma interface pensada para a rotina de consultorio.
+                Uma interface pensada para a rotina de consultório.
               </h2>
             </div>
             <div className="grid gap-5 lg:grid-cols-3">
@@ -120,7 +120,7 @@ export default function LandingPage() {
       <footer className="border-t border-slate-200 bg-white py-7">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between lg:px-8">
           <span className="font-bold text-slate-800">MediSys</span>
-          <span>© {new Date().getFullYear()} Gestao clinica inteligente.</span>
+          <span>© {new Date().getFullYear()} Gestão clínica inteligente.</span>
         </div>
       </footer>
     </div>

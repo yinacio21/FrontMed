@@ -42,16 +42,16 @@ export default function DetalhesPaciente() {
 
   const recarregar = async () => {
     try { setProntuarios(await listarProntuariosPorPaciente(codigo)); }
-    catch { showError("Erro", "Nao foi possivel recarregar os prontuarios."); }
+    catch { showError("Erro", "Não foi possível recarregar os prontuários."); }
   };
 
   const handleDeletar = (id: number) => {
     showConfirm(
-      "Excluir prontuario",
-      "Tem certeza que deseja excluir este registro? Esta acao nao pode ser desfeita.",
+      "Excluir prontuário",
+      "Tem certeza que deseja excluir este registro? Esta ação não pode ser desfeita.",
       async () => {
         try { await deletarProntuario(id); await recarregar(); }
-        catch { showError("Erro", "Nao foi possivel excluir o prontuario."); }
+        catch { showError("Erro", "Não foi possível excluir o prontuário."); }
       },
       { confirmLabel: "Sim, excluir" }
     );
@@ -99,7 +99,7 @@ export default function DetalhesPaciente() {
                 </span>
               )}
               <span className="inline-flex items-center gap-1.5 text-xs font-medium text-cyan-700 bg-cyan-50 border border-cyan-200 px-3 py-1.5 rounded-lg">
-                {prontuarios.length} {prontuarios.length === 1 ? "prontuario" : "prontuarios"}
+                {prontuarios.length} {prontuarios.length === 1 ? "prontuário" : "prontuários"}
               </span>
             </div>
             {(enderecoLinha1 || paciente.cep || paciente.complemento) && (

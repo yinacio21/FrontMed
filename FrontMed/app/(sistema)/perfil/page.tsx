@@ -12,13 +12,13 @@ export default function Perfil() {
 
   return (
     <div className="ms-page-shell">
-      <PageHeader title="Meu Perfil" subtitle="Informacoes da sua conta no MediSys" />
+      <PageHeader title="Meu Perfil" subtitle="Informações da sua conta no MediSys." />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Card de identidade */}
         <div className="ms-card p-6 flex flex-col items-center text-center">
           <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-cyan-600 to-teal-500 flex items-center justify-center text-white text-2xl font-black mb-4 shadow-lg shadow-cyan-700/25">{iniciais}</div>
-          <h2 className="text-lg font-bold text-slate-900">{usuario?.nome || "Medico"}</h2>
-          <p className="text-sm text-slate-500 mt-1">{usuario?.especialidade || "Especialidade nao informada"}</p>
+          <h2 className="text-lg font-bold text-slate-900">{usuario?.nome || "Médico"}</h2>
+          <p className="text-sm text-slate-500 mt-1">{usuario?.especialidade || "Especialidade não informada"}</p>
           <div className="mt-4 w-full space-y-3">
             <div className="flex items-center justify-between py-2.5 px-4 rounded-xl bg-slate-50 border border-slate-100">
               <span className="text-xs font-semibold text-slate-400 uppercase tracking-wide">CRM</span>
@@ -54,7 +54,7 @@ export default function Perfil() {
               </div>
               <div>
                 <p className="text-sm font-bold text-emerald-800">Conta protegida</p>
-                <p className="text-xs text-emerald-700">Seus dados clinicos sao acessiveis apenas pela sua conta autenticada.</p>
+                <p className="text-xs text-emerald-700">Seus dados clínicos são acessíveis apenas pela sua conta autenticada.</p>
               </div>
             </div>
           </div>

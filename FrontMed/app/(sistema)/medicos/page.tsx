@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { useEffect, useState } from "react";
 import { buscarListaMedicos, alterarStatusMedico } from "@/app/services/medicoService";
 import { Medico } from "@/app/types/medicos";
@@ -19,7 +19,7 @@ export default function Medicos() {
   const carregar = async () => {
     setCarregando(true);
     try { setMedicos(await buscarListaMedicos()); }
-    catch { showError("Erro", "Nao foi possivel carregar a lista de medicos."); }
+    catch { showError("Erro", "Não foi possível carregar a lista de médicos."); }
     finally { setCarregando(false); }
   };
 
@@ -27,10 +27,10 @@ export default function Medicos() {
     const acao = m.status === "ATIVO" ? "inativar" : "ativar";
     showConfirm(
       "Alterar status",
-      "Deseja " + acao + " o medico " + m.nome + "?",
+      "Deseja " + acao + " o médico " + m.nome + "?",
       async () => {
         try { await alterarStatusMedico(m); await carregar(); }
-        catch { showError("Erro", "Nao foi possivel alterar o status."); }
+        catch { showError("Erro", "Não foi possível alterar o status."); }
       },
       { confirmLabel: acao.charAt(0).toUpperCase() + acao.slice(1) }
     );
@@ -39,25 +39,25 @@ export default function Medicos() {
   return (
     <div className="ms-page-shell">
       <PageHeader
-        title="Medicos"
-        subtitle="Gerencie os medicos cadastrados no sistema"
+        title="Médicos"
+        subtitle="Gerencie os médicos cadastrados no sistema."
         action={
           <Link href="/medicos/novo" className="ms-btn-primary">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-            Novo Medico
+            Novo Médico
           </Link>
         }
       />
       <div className="ms-table-wrap">
-        {carregando ? <LoadingSpinner text="Carregando medicos..." /> : medicos.length === 0 ? (
-          <EmptyState title="Nenhum medico encontrado" description="Nenhum medico cadastrado no sistema ainda." action={{ label: "Cadastrar medico", href: "/medicos/novo" }} />
+        {carregando ? <LoadingSpinner text="Carregando médicos..." /> : medicos.length === 0 ? (
+          <EmptyState title="Nenhum médico encontrado" description="Nenhum médico cadastrado no sistema ainda." action={{ label: "Cadastrar médico", href: "/medicos/novo" }} />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="ms-table-head">
-                  {["Medico","CRM","Especialidade","E-mail","Status","Acoes"].map(h => (
-                    <th key={h} className={"px-5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide" + (h === "Acoes" ? " text-right" : "")}>{h}</th>
+                  {["Médico","CRM","Especialidade","E-mail","Status","Ações"].map(h => (
+                    <th key={h} className={"px-5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide" + (h === "Ações" ? " text-right" : "")}>{h}</th>
                   ))}
                 </tr>
               </thead>

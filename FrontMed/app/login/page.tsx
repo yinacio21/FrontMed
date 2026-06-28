@@ -115,12 +115,12 @@ export default function LoginPage() {
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               <span className="text-xs text-slate-400">Ambiente seguro LGPD</span>
             </div>
-            <Link href="/" className="text-xs text-cyan-700 font-bold hover:underline">Voltar ao inicio</Link>
+            <Link href="/" className="text-xs text-cyan-700 font-bold hover:underline">Voltar ao início</Link>
           </div>
         </div>
 
         <p className="text-center text-xs text-slate-400 mt-5">
-          Ainda nao tem conta?{" "}
+          Ainda não tem conta?{" "}
           <Link href="/registro" className="text-cyan-700 font-bold hover:underline">Criar agora</Link>
         </p>
       </div>

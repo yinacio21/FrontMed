@@ -14,18 +14,18 @@ export default function Registro() {
             </div>
             <h1 className="text-xl font-black text-slate-900">Cadastro via <span className="text-cyan-700">ColdStart</span></h1>
             <p className="text-sm text-slate-400 mt-2 text-center leading-relaxed">
-              O cadastro de novas contas de medico e realizado pelo aplicativo <strong className="text-slate-600">MediSys ColdStart</strong>, disponivel para instalacao.
+              O cadastro de novas contas de médico é realizado pelo aplicativo <strong className="text-slate-600">MediSys ColdStart</strong>, disponível para instalação.
             </p>
           </div>
 
           <div className="space-y-4">
             <div className="flex items-start gap-3 p-4 rounded-xl bg-cyan-50 border border-cyan-100">
               <svg className="w-5 h-5 text-cyan-700 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <p className="text-sm text-cyan-800">Para seguranca, novos medicos so podem ser cadastrados pelo administrador do sistema via ColdStart.</p>
+              <p className="text-sm text-cyan-800">Para segurança, novos médicos só podem ser cadastrados pelo administrador do sistema via ColdStart.</p>
             </div>
             <div className="flex items-center gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
               <svg className="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <p className="text-sm text-slate-600">Ja tem uma conta? Acesse o sistema normalmente pelo login.</p>
+              <p className="text-sm text-slate-600">Já tem uma conta? Acesse o sistema normalmente pelo login.</p>
             </div>
           </div>
 
@@ -35,7 +35,7 @@ export default function Registro() {
           </Link>
         </div>
         <p className="text-center text-xs text-slate-400 mt-5">
-          <Link href="/" className="text-cyan-700 font-bold hover:underline">Voltar ao inicio</Link>
+          <Link href="/" className="text-cyan-700 font-bold hover:underline">Voltar ao início</Link>
         </p>
       </div>
     </div>

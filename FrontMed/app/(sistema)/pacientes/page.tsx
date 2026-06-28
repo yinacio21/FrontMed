@@ -26,7 +26,7 @@ export default function Pacientes() {
   const carregar = async () => {
     setCarregando(true);
     try { setPacientes(await listarPacientes()); }
-    catch { showError("Erro ao carregar", "Nao foi possivel carregar a lista de pacientes. Tente novamente."); }
+    catch { showError("Erro ao carregar", "Não foi possível carregar a lista de pacientes. Tente novamente."); }
     finally { setCarregando(false); }
   };
 
@@ -46,11 +46,11 @@ export default function Pacientes() {
   const confirmarDeletar = (p: Paciente) => {
     showConfirm(
       "Excluir paciente",
-      "Tem certeza que deseja excluir " + p.nome + "? Esta acao nao pode ser desfeita.",
+      "Tem certeza que deseja excluir " + p.nome + "? Esta ação não pode ser desfeita.",
       async () => {
         setDeletandoId(p.id!);
         try { await deletarPaciente(p.id!); await carregar(); }
-        catch { showError("Erro ao excluir", "Nao foi possivel excluir o paciente. Tente novamente."); }
+        catch { showError("Erro ao excluir", "Não foi possível excluir o paciente. Tente novamente."); }
         finally { setDeletandoId(null); }
       },
       { confirmLabel: "Sim, excluir", cancelLabel: "Cancelar" }
@@ -61,7 +61,7 @@ export default function Pacientes() {
     <div className="ms-page-shell">
       <PageHeader
         title="Pacientes"
-        subtitle="Gerencie os pacientes vinculados ao seu cadastro"
+        subtitle="Gerencie os pacientes vinculados ao seu cadastro."
         action={
           <Link href="/pacientes/novo" className="ms-btn-primary">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
@@ -90,7 +90,7 @@ export default function Pacientes() {
           <EmptyState
             icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>}
             title={busca ? "Nenhum resultado" : "Nenhum paciente cadastrado"}
-            description={busca ? "Nenhum paciente encontrado para \"" + busca + "\"." : "Voce ainda nao tem pacientes. Cadastre o primeiro agora."}
+            description={busca ? "Nenhum paciente encontrado para \"" + busca + "\"." : "Você ainda não tem pacientes. Cadastre o primeiro agora."}
             action={!busca ? { label: "Cadastrar paciente", href: "/pacientes/novo" } : undefined}
           />
         ) : (
@@ -100,9 +100,9 @@ export default function Pacientes() {
                 <tr className="ms-table-head">
                   <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Paciente</th>
                   <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">CPF</th>
-                  <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide hidden md:table-cell">Endereco</th>
+                  <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide hidden md:table-cell">Endereço</th>
                   <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide hidden sm:table-cell">UF</th>
-                  <th className="px-5 py-3.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide">Acoes</th>
+                  <th className="px-5 py-3.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide">Ações</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">

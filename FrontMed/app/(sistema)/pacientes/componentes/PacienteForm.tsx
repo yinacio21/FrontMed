@@ -82,7 +82,7 @@ export default function PacienteForm({ pacienteExistente }: PacienteFormProps) {
     try {
       const endereco = await buscarEnderecoPorCep(form.cep);
       if (!endereco) {
-        showError("CEP nao encontrado", "Confira o CEP informado e tente novamente.");
+        showError("CEP não encontrado", "Confira o CEP informado e tente novamente.");
         return;
       }
       setForm(p => ({
@@ -96,7 +96,7 @@ export default function PacienteForm({ pacienteExistente }: PacienteFormProps) {
       }));
       setTocado(p => ({ ...p, logradouro: true, bairro: true, cidade: true, estado: true }));
     } catch {
-      showError("Erro ao consultar CEP", "Nao foi possivel buscar o endereco pelo ViaCEP.");
+      showError("Erro ao consultar CEP", "Não foi possível buscar o endereço pelo ViaCEP.");
     } finally {
       setBuscandoCep(false);
     }
@@ -133,18 +133,18 @@ export default function PacienteForm({ pacienteExistente }: PacienteFormProps) {
 
   const handleSalvar = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (cpfValido === false) { showError("CPF invalido", "O CPF informado nao e valido. Verifique os digitos e tente novamente."); return; }
-    if (!cepCompleto) { showError("CEP invalido", "Informe um CEP com 8 digitos."); return; }
+    if (cpfValido === false) { showError("CPF inválido", "O CPF informado não é válido. Verifique os dígitos e tente novamente."); return; }
+    if (!cepCompleto) { showError("CEP inválido", "Informe um CEP com 8 dígitos."); return; }
     setSalvando(true);
     try {
       if (pacienteExistente?.id) {
         const ok = await atualizarPaciente(pacienteExistente.id, form);
         if (ok) { showSuccess("Paciente atualizado!", "Os dados foram atualizados com sucesso."); setTimeout(() => router.push("/pacientes"), 1500); }
-        else showError("Erro ao atualizar", "Nao foi possivel atualizar o paciente.");
+        else showError("Erro ao atualizar", "Não foi possível atualizar o paciente.");
       } else {
         const id = await salvarPaciente(form);
-        if (id) { showSuccess("Paciente cadastrado!", "O paciente foi registrado com o codigo #" + id + "."); setTimeout(() => router.push("/pacientes"), 1500); }
-        else showError("Erro ao cadastrar", "Nao foi possivel cadastrar o paciente.");
+        if (id) { showSuccess("Paciente cadastrado!", "O paciente foi registrado com o código #" + id + "."); setTimeout(() => router.push("/pacientes"), 1500); }
+        else showError("Erro ao cadastrar", "Não foi possível cadastrar o paciente.");
       }
     } catch (err: unknown) {
       const msg =
@@ -153,7 +153,7 @@ export default function PacienteForm({ pacienteExistente }: PacienteFormProps) {
         "response" in err &&
         typeof (err as { response?: { data?: unknown } }).response?.data === "string"
           ? (err as { response: { data: string } }).response.data
-          : "Nao foi possivel salvar o paciente. Verifique os dados.";
+          : "Não foi possível salvar o paciente. Verifique os dados.";
       showError("Erro", msg);
     } finally { setSalvando(false); }
   };
@@ -177,7 +177,7 @@ export default function PacienteForm({ pacienteExistente }: PacienteFormProps) {
           <div className="md:col-span-2">
             <label className={lc}>Nome Completo *</label>
             <input required value={form.nome} onChange={e => set("nome", e.target.value)} onBlur={() => setTocado(p => ({...p, nome: true}))} placeholder="Ex: Maria da Silva" className={inputCls(erros.nome)} />
-            {erros.nome && <p className="mt-1.5 text-xs text-red-500 font-medium">Nome e obrigatorio.</p>}
+            {erros.nome && <p className="mt-1.5 text-xs text-red-500 font-medium">Nome é obrigatório.</p>}
           </div>
 
           <div>
@@ -185,7 +185,7 @@ export default function PacienteForm({ pacienteExistente }: PacienteFormProps) {
               CPF *
               {tocado.cpf && cpfCompleto && (
                 <span className={"ml-2 normal-case " + (cpfValido ? "text-emerald-600" : "text-red-500")}>
-                  {cpfValido ? "Valido" : "Invalido"}
+                  {cpfValido ? "Válido" : "Inválido"}
                 </span>
               )}
             </label>
@@ -200,7 +200,7 @@ export default function PacienteForm({ pacienteExistente }: PacienteFormProps) {
                 </div>
               )}
             </div>
-            {erros.cpf && <p className="mt-1.5 text-xs text-red-500 font-medium">CPF invalido. Verifique os digitos verificadores.</p>}
+            {erros.cpf && <p className="mt-1.5 text-xs text-red-500 font-medium">CPF inválido. Verifique os dígitos verificadores.</p>}
           </div>
 
           <div>
@@ -209,19 +209,19 @@ export default function PacienteForm({ pacienteExistente }: PacienteFormProps) {
               {buscandoCep && <span className="ml-2 normal-case text-cyan-700">Buscando...</span>}
             </label>
             <input required value={form.cep} onChange={e => set("cep", e.target.value)} onBlur={buscarCep} placeholder="00000-000" inputMode="numeric" className={inputCls(erros.cep)} />
-            {erros.cep && <p className="mt-1.5 text-xs text-red-500 font-medium">CEP deve ter 8 digitos.</p>}
+            {erros.cep && <p className="mt-1.5 text-xs text-red-500 font-medium">CEP deve ter 8 dígitos.</p>}
           </div>
 
           <div className="md:col-span-2">
             <label className={lc}>Logradouro *</label>
             <input required value={form.logradouro} onChange={e => set("logradouro", e.target.value)} onBlur={() => setTocado(p => ({...p, logradouro: true}))} placeholder="Ex: Rua das Flores" className={inputCls(erros.logradouro)} />
-            {erros.logradouro && <p className="mt-1.5 text-xs text-red-500 font-medium">Logradouro e obrigatorio.</p>}
+            {erros.logradouro && <p className="mt-1.5 text-xs text-red-500 font-medium">Logradouro é obrigatório.</p>}
           </div>
 
           <div>
-            <label className={lc}>Numero *</label>
+            <label className={lc}>Número *</label>
             <input required value={form.numero} onChange={e => set("numero", e.target.value)} onBlur={() => setTocado(p => ({...p, numero: true}))} placeholder="Ex: 123" className={inputCls(erros.numero)} />
-            {erros.numero && <p className="mt-1.5 text-xs text-red-500 font-medium">Numero e obrigatorio.</p>}
+            {erros.numero && <p className="mt-1.5 text-xs text-red-500 font-medium">Número é obrigatório.</p>}
           </div>
 
           <div>
@@ -232,13 +232,13 @@ export default function PacienteForm({ pacienteExistente }: PacienteFormProps) {
           <div>
             <label className={lc}>Bairro *</label>
             <input required value={form.bairro} onChange={e => set("bairro", e.target.value)} onBlur={() => setTocado(p => ({...p, bairro: true}))} placeholder="Ex: Centro" className={inputCls(erros.bairro)} />
-            {erros.bairro && <p className="mt-1.5 text-xs text-red-500 font-medium">Bairro e obrigatorio.</p>}
+            {erros.bairro && <p className="mt-1.5 text-xs text-red-500 font-medium">Bairro é obrigatório.</p>}
           </div>
 
           <div>
             <label className={lc}>Cidade *</label>
-            <input required value={form.cidade} onChange={e => set("cidade", e.target.value)} onBlur={() => setTocado(p => ({...p, cidade: true}))} placeholder="Ex: Sao Paulo" className={inputCls(erros.cidade)} />
-            {erros.cidade && <p className="mt-1.5 text-xs text-red-500 font-medium">Cidade e obrigatoria.</p>}
+            <input required value={form.cidade} onChange={e => set("cidade", e.target.value)} onBlur={() => setTocado(p => ({...p, cidade: true}))} placeholder="Ex: São Paulo" className={inputCls(erros.cidade)} />
+            {erros.cidade && <p className="mt-1.5 text-xs text-red-500 font-medium">Cidade é obrigatória.</p>}
           </div>
 
           <div>
@@ -247,7 +247,7 @@ export default function PacienteForm({ pacienteExistente }: PacienteFormProps) {
               <option value="">Selecione o estado</option>
               {ESTADOS.map(uf => <option key={uf} value={uf}>{uf}</option>)}
             </select>
-            {erros.estado && <p className="mt-1.5 text-xs text-red-500 font-medium">Estado e obrigatorio.</p>}
+            {erros.estado && <p className="mt-1.5 text-xs text-red-500 font-medium">Estado é obrigatório.</p>}
           </div>
         </div>
 
