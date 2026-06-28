@@ -1,3 +1,4 @@
+import api from "./api";
 import { ViaCepResponse } from "../types/viacep";
 
 export async function buscarEnderecoPorCep(cep: string): Promise<ViaCepResponse | null> {
@@ -7,17 +8,26 @@ export async function buscarEnderecoPorCep(cep: string): Promise<ViaCepResponse 
         return null;
     }
 
-    const response = await fetch(`https://viacep.com.br/ws/${cepNumerico}/json/`);
+    try {
+        const response = await api.get<{ cep: string; logradouro: string; bairro: string; cidade: string; uf: string }>(
+            `/api/enderecos/${cepNumerico}`
+        );
 
-    if (!response.ok) {
-        throw new Error("Nao foi possivel consultar o CEP.");
-    }
+        const data = response.data;
 
-    const data = await response.json() as ViaCepResponse;
-
-    if (data.erro) {
+        // Mapeia o formato do backend para o formato ViaCepResponse do frontend
+        return {
+            cep: data.cep,
+            logradouro: data.logradouro,
+            complemento: "",
+            bairro: data.bairro,
+            localidade: data.cidade,
+            uf: data.uf,
+            estado: "",
+            ibge: "",
+            ddd: "",
+        };
+    } catch {
         return null;
     }
-
-    return data;
 }

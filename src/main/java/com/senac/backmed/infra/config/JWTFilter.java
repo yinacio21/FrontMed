@@ -25,8 +25,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        //liberação de metodos para não travar o token jwt
-        //adionar a land page aqui
+
         //para desativar a segurança, descomentar a linha abaixo
         if (    //path.startsWith("/") ||
                 path.equals("/auth/login") || path.startsWith("/swagger-ui")
@@ -39,26 +38,27 @@ public class JWTFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
             return;
         }
-        //fazendo testes
 
         String header = request.getHeader("Authorization");
 
-        if(header != null && header.startsWith("Bearer ")){
+        if (header != null && header.startsWith("Bearer ")) {
             String token = header.replace("Bearer ", "");
-
-            var retornotoken = tokenService.validarToken(token);
-
-            UsernamePasswordAuthenticationToken usuario = new UsernamePasswordAuthenticationToken(retornotoken, null, retornotoken.getAuthorities());
-
-            SecurityContextHolder.getContext().setAuthentication(usuario);
-
-            //validar token jwt
-        }else {
+            try {
+                var retornotoken = tokenService.validarToken(token);
+                UsernamePasswordAuthenticationToken usuario = new UsernamePasswordAuthenticationToken(
+                        retornotoken, null, retornotoken.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(usuario);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token inválido ou expirado");
+                return;
+            }
+        } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Token não informado ou inválido");
+            response.getWriter().write("Token não informado");
             return;
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 }
 

@@ -40,8 +40,26 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, "/medicos/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/medicos/usuariologado").authenticated()
 
-
                         //rotas paciente
+                        .requestMatchers(HttpMethod.GET, "/pacientes").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/pacientes/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/pacientes").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/pacientes/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/pacientes/**").authenticated()
+
+                        //rotas prontuario
+                        .requestMatchers(HttpMethod.GET, "/prontuarios").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/prontuarios/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/prontuarios").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/prontuarios/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/prontuarios/**").authenticated()
+
+                        //rotas dashboard
+                        .requestMatchers(HttpMethod.GET, "/dashboard").authenticated()
+
+                        //rotas endereco
+                        .requestMatchers(HttpMethod.GET, "/api/enderecos/**").authenticated()
+
                         .anyRequest().authenticated()
                 )
 

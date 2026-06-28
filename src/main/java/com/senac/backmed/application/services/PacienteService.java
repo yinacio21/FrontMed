@@ -31,10 +31,13 @@ public class PacienteService {
                 .collect(Collectors.toList());
     }
 
-    public PacienteResponse buscarPorId(Long id) {
-        return pacienteRepository.findById(id)
-                .map(PacienteResponse::new)
-                .orElse(null);
+    public PacienteResponse buscarPorId(Long id, Authentication authentication) {
+        Medico medico = getMedicoLogado(authentication);
+        Paciente paciente = pacienteRepository.findById(id).orElse(null);
+        if (paciente == null || !paciente.getMedico().getId().equals(medico.getId())) {
+            return null;
+        }
+        return new PacienteResponse(paciente);
     }
 
     public Long salvarPaciente(PacienteRequest pacienteRequest, Authentication authentication) {

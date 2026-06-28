@@ -28,9 +28,9 @@ public class PacienteController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar paciente por ID", description = "Busca um paciente no banco pelo ID")
-    public ResponseEntity<PacienteResponse> buscarPorId(@PathVariable Long id) {
-        var paciente = pacienteService.buscarPorId(id);
+    @Operation(summary = "Buscar paciente por ID", description = "Busca um paciente do médico logado pelo ID")
+    public ResponseEntity<PacienteResponse> buscarPorId(@PathVariable Long id, Authentication authentication) {
+        var paciente = pacienteService.buscarPorId(id, authentication);
         if (paciente == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(paciente);
     }
