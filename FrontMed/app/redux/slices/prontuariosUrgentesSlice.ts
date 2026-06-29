@@ -50,6 +50,11 @@ const prontuariosUrgentesSlice = createSlice({
             state.itens = [];
             salvarNoCookie(state.medicoId, []);
         },
+        filtrarUrgentes: (state, action: PayloadAction<number[]>) => {
+            const idsValidos = new Set(action.payload);
+            state.itens = state.itens.filter(p => idsValidos.has(p.id));
+            salvarNoCookie(state.medicoId, [...state.itens]);
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(logout, (state) => {
@@ -60,5 +65,5 @@ const prontuariosUrgentesSlice = createSlice({
     },
 });
 
-export const { inicializarUrgentes, marcarUrgente, desmarcarUrgente, limparUrgentes } = prontuariosUrgentesSlice.actions;
+export const { inicializarUrgentes, marcarUrgente, desmarcarUrgente, limparUrgentes, filtrarUrgentes } = prontuariosUrgentesSlice.actions;
 export default prontuariosUrgentesSlice.reducer;
