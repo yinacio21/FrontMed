@@ -13,7 +13,8 @@ function salvarNoCookie(medicoId: number | null, itens: Prontuario[]) {
 function carregarDoCookie(medicoId: number): Prontuario[] {
     try {
         const raw = Cookies.get(cookieKey(medicoId));
-        return raw ? (JSON.parse(raw) as Prontuario[]) : [];
+        const parsed = raw ? (JSON.parse(raw) as Prontuario[]) : [];
+        return parsed.filter((p): p is Prontuario => p != null && typeof p.id === 'number');
     } catch { return []; }
 }
 
@@ -52,7 +53,7 @@ const prontuariosUrgentesSlice = createSlice({
         },
         filtrarUrgentes: (state, action: PayloadAction<number[]>) => {
             const idsValidos = new Set(action.payload);
-            state.itens = state.itens.filter(p => idsValidos.has(p.id));
+            state.itens = state.itens.filter(p => p != null && idsValidos.has(p.id));
             salvarNoCookie(state.medicoId, [...state.itens]);
         },
     },

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { hidratarAuth } from "./slices/authSlice"
 import { inicializarUrgentes, filtrarUrgentes } from "./slices/prontuariosUrgentesSlice"
 import { buscarProntuarioPorId } from "@/app/services/prontuarioService"
+import { Prontuario } from "@/app/types/prontuarios"
 import { store } from "./store"
 import type { AppDispatch, RootState } from "./store"
 
@@ -41,7 +42,12 @@ function AuthHydrator({ children }: { children: React.ReactNode }) {
             );
 
             const idsValidos = urgentes
-                .filter((_, i) => resultados[i].status === 'fulfilled')
+                .filter((_, i) => {
+                    const r = resultados[i];
+                    if (r.status !== 'fulfilled') return false;
+                    const prontuario = (r as PromiseFulfilledResult<Prontuario>).value;
+                    return prontuario != null && prontuario.id != null;
+                })
                 .map(p => p.id);
 
             if (idsValidos.length < urgentes.length) {
